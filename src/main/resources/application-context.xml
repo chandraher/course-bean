@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+                            http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+    <bean id="author" class="com.course.belajar_spring.Author">
+        <property name="name" value="Chandraher" />
+        <property name="id" value="1" />
+    </bean>
+
+
+    <bean id="book1" class="com.course.belajar_spring.Book">
+        <constructor-arg value="Who am i?" />
+        <constructor-arg ref="author" />
+    </bean>
+
+    <bean id="book2" class="com.course.belajar_spring.Book">
+        <constructor-arg value="Spring FrameWork" />
+        <constructor-arg ref="author" />
+    </bean>
+
+    <bean id="mailSession" class="jakarta.mail.Session" factory-method="getInstance">
+        <constructor-arg>
+            <props>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+                <prop key="mail.smtp.host">sandbox.smtp.mailtrap.io</prop>
+                <prop key="mail.smtp.port">587</prop>
+            </props>
+        </constructor-arg>
+        <constructor-arg>
+            <bean class="jakarta.mail.Authenticator">
+                <lookup-method
+                        name="getPasswordAuthentication"
+                        bean="passwordAuthentication"
+                />
+            </bean>
+        </constructor-arg>
+    </bean>
+    <bean id="passwordAuthentication" class="jakarta.mail.PasswordAuthentication">
+        <constructor-arg value="c2701997c55cdd" />
+        <constructor-arg value="072f4f1f1d295b" />
+    </bean>
+
+    <bean id="emailService" class="com.course.belajar_spring.EmailService">
+        <constructor-arg ref="mailSession" />
+    </bean>
+
+</beans>
